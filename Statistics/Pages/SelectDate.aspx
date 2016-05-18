@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+    <link href="../Styles/FormStyles.css" rel="stylesheet" />
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" media="screen"
         href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css" />
@@ -23,25 +24,40 @@
 </script>
 <script type="text/javascript">
     $(function () {
-        $('#datetimepicker3').datetimepicker({
-            format: 'hh:mm',
-            pickDate: false
+        $('#datetimepickerStart').datetimepicker({
+            format: 'yyyy-mm-dd',
+            //pickDate: false
+            pickTime: false
+        });
+    });
+    $(function () {
+        $('#datetimepickerSlut').datetimepicker({
+            format: 'yyyy-mm-dd',
+            //pickDate: false
+            pickTime: false
         });
     });
 </script>
 <body>
     <form id="mainForm" runat="server">
-            <div class="container">
-        <div class="well">
-        <div id="datetimepicker3" class="input-append">
-            <asp:TextBox ID="rapportadStartTextBox"  data-format="hh:mm:ss" type="text" runat="server"/>
-            <span class="add-on">
-                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-            </span>
+        <div class="container well">
+                    <div id="datetimepickerStart" class="input-append col-md-6">
+                        <asp:TextBox ID="rapportadStartTextBox" data-format="hh:mm:ss" type="text" runat="server" />
+                        <span class="add-on">
+                            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                        </span>
+                </div>
+                    <div id="datetimepickerSlut" class="input-append col-md-6">
+                        <asp:TextBox ID="rapportadSlutTextBox" data-format="hh:mm:ss" type="text" runat="server" />
+                        <span class="add-on">
+                            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                        </span>
+                    </div>
+
+
+
+            <asp:Button ID="showTableBtn" CssClass="btn btn-primary" runat="server" Text="show table" OnClick="showTableBtn_Click" />
         </div>
-            <asp:Button ID="showTableBtn" CssClass="btn btn-primary" runat="server" Text="show table" OnClick="showTableBtn_Click"/>
-    </div>
-    </div>
     </form>
 </body>
 </html>

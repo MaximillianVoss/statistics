@@ -16,16 +16,16 @@ namespace Statistics.Pages
 
         }
 
-        private void AddTable(string rapportadStart)
+        private void AddTable(string rapportadStartDatum,string rapportadSlutDatum)
         {            
             SQLController sqlController = new SQLController();
-            var table = sqlController.GetTable(Query.GetQuery(new DateTime(2005,1,1).ToString("yyyy-MM-dd"), rapportadStart,((int)Query.personalTypes.worker).ToString()));
+            var table = sqlController.GetTable(Query.GetQuery(rapportadStartDatum, rapportadStartDatum, (int)Query.personalTypes.worker));
             this.Page.Controls.Add(HtmlTable.CreateTable(table));
         }
 
         protected void showTableBtn_Click(object sender, EventArgs e)
         {
-            AddTable(rapportadStartTextBox.Text);
+            AddTable(rapportadStartTextBox.Text, rapportadSlutTextBox.Text);
         }
 
     }
