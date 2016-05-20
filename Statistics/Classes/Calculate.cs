@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 
 namespace Statistics.Classes
 {
@@ -46,6 +47,28 @@ namespace Statistics.Classes
 
 
             return hours;
+        }
+
+        public static void DateTimeToStr(string dayTime, string dateTime)
+        {
+            string[] time = dayTime.Split(':');
+            string[] date = dayTime.Split('-');
+            DateTime result = new DateTime(Convert.ToInt32(date[0]), Convert.ToInt32(date[1]), Convert.ToInt32(date[2]), Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), 0);
+        }
+
+        public static  void AddCalculateColumns(DataTable table)
+        {
+            table.Columns.Add("Hours");
+            foreach (DataRow item in table.Rows)
+            {
+                
+                string raportStart = ConvertDate.FormatConvert(item["rapportradDatum"].ToString(), "yyyy-MM-dd") + ' ' + item["rapportradStart"].ToString();
+                string raportEnd = ConvertDate.FormatConvert(item["rapportradDatum"].ToString(), "yyyy-MM-dd") + ' ' + item["rapportradSlut"].ToString();
+                string lunchStart = ConvertDate.FormatConvert(item["rapportradDatum"].ToString(), "yyyy-MM-dd") + ' ' + item["rapportradLunchStart"].ToString();
+                string lunchEnd = ConvertDate.FormatConvert(item["rapportradDatum"].ToString(), "yyyy-MM-dd") + ' ' + item["rapportradLunchSlut"].ToString();               
+                item["Hours"] = CalculateWorkinghours(ConvertDate.ConvertDayTime(raportStart), ConvertDate.ConvertDayTime(raportEnd),
+                    ConvertDate.ConvertDayTime(lunchStart), ConvertDate.ConvertDayTime(lunchEnd)).ToString();
+            }
         }
     }
 }

@@ -33,7 +33,11 @@ namespace Statistics.Classes
                     }
                     table.Controls.Add(row);
                 }
-             }            
+             }
+            else
+            {
+                table.Controls.Add(creator.CreateHtmlControl("div","No results"));
+            }           
             return table;
         }
     }

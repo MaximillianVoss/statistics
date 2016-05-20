@@ -25,14 +25,16 @@
 <script type="text/javascript">
     $(function () {
         $('#datetimepickerStart').datetimepicker({
-            format: 'yyyy-mm-dd',
+            format: 'yyyy-MM-dd',
+            //format: 'yyyy-mm-dd',
             //pickDate: false
             pickTime: false
         });
     });
     $(function () {
         $('#datetimepickerSlut').datetimepicker({
-            format: 'yyyy-mm-dd',
+            format: 'yyyy-MM-dd',
+            //format: 'yyyy-mm-dd',
             //pickDate: false
             pickTime: false
         });
@@ -41,22 +43,22 @@
 <body>
     <form id="mainForm" runat="server">
         <div class="container well">
-                    <div id="datetimepickerStart" class="input-append col-md-6">
-                        <asp:TextBox ID="rapportadStartTextBox" data-format="hh:mm:ss" type="text" runat="server" />
-                        <span class="add-on">
-                            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-                        </span>
-                </div>
-                    <div id="datetimepickerSlut" class="input-append col-md-6">
-                        <asp:TextBox ID="rapportadSlutTextBox" data-format="hh:mm:ss" type="text" runat="server" />
-                        <span class="add-on">
-                            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-                        </span>
-                    </div>
-
-
-
-            <asp:Button ID="showTableBtn" CssClass="btn btn-primary" runat="server" Text="show table" OnClick="showTableBtn_Click" />
+            <label class="label">rapportadStart</label>
+            <div id="datetimepickerStart" class="input-append col-md-6">
+                <%--data-format="hh:mm:ss"  type="text"--%>
+                <asp:TextBox ID="rapportadStartTextBox" data-format="yyyy-mm-dd"  type="text" runat="server" />
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                </span>
+            </div>
+            <label class="label">rapportadSlut</label>
+            <div id="datetimepickerSlut" class="input-append col-md-6">
+                <asp:TextBox ID="rapportadSlutTextBox" data-format="yyyy-mm-dd"  type="text"  runat="server" />
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                </span>
+            </div>
+            <asp:Button ID="showTableBtn" CssClass="btn btn-primary" runat="server" Text="Visa" OnClick="showTableBtn_Click" />
         </div>
     </form>
 </body>
