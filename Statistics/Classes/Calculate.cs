@@ -49,11 +49,12 @@ namespace Statistics.Classes
 
             return hours;
         }
-        public static void DateTimeToStr(string dayTime, string dateTime)
+        private static String GetCorrectValue(String value)
         {
-            string[] time = dayTime.Split(':');
-            string[] date = dayTime.Split('-');
-            DateTime result = new DateTime(Convert.ToInt32(date[0]), Convert.ToInt32(date[1]), Convert.ToInt32(date[2]), Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), 0);
+            if (String.IsNullOrEmpty(value))
+                return "0";
+            else
+                return value;
         }
         public static  void AddCalculateColumns(DataTable table,List<string> columnsNamesToAdd)
         {
@@ -84,6 +85,34 @@ namespace Statistics.Classes
             Common.statistikTabel["Debitering bemanning"] = debitering.ToString();
             Common.statistikTabel["Löne och UK kostnader"] = löne.ToString();
             Common.statistikTabel["Arbetade timmar"] = timmar.ToString();
+
+            var TimmarOdebiterade = Calculate.GetValueFromResultTable(SQLController.GetDataTable(Common.TimmarOdebiteradeQuery), "summa");
+            Common.statistikTabel["Timmar odebiterade"] = GetCorrectValue(TimmarOdebiterade);
+            Common.statistikTabel["Timmar totalt"] =
+                (Convert.ToDouble(GetCorrectValue(TimmarOdebiterade)) +
+                Convert.ToDouble(GetCorrectValue(Common.statistikTabel["Arbetade timmar"]))).ToString();
+            var UtläggTabel = Calculate.GetValueFromResultTable(SQLController.GetDataTable(Common.UtläggQuery), "summa");
+            Common.statistikTabel["Utlägg"] = GetCorrectValue(UtläggTabel);
+            var Milersättning = Calculate.GetValueFromResultTable(SQLController.GetDataTable(Common.MilersättningQuery), "summa");
+            Common.statistikTabel["Milersättning"] = GetCorrectValue(Milersättning);
+            var Traktamente = Calculate.GetValueFromResultTable(SQLController.GetDataTable(Common.TraktamenteQuery), "summa");
+            Common.statistikTabel["Traktamente"] = GetCorrectValue(Traktamente);
+           
+            Common.statistikTabel["Summa"] =
+                (Convert.ToDouble(Common.statistikTabel["Utlägg"].ToString())
+                + Convert.ToDouble(Common.statistikTabel["Milersättning"].ToString())
+                + Convert.ToDouble(Common.statistikTabel["Traktamente"].ToString())).ToString();
+
+
+        }
+        public static String GetValueFromResultTable(DataTable table, string ColumnName)
+        {
+            if (table.Rows.Count > 0 && !String.IsNullOrEmpty(table.Rows[0]["summa"].ToString()))
+            {
+                return table.Rows[0]["summa"].ToString();
+            }
+            else
+                return String.Empty;
         }
     }
 }

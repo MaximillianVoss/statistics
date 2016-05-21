@@ -1,12 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Statistics.Classes
 {
-    public static  class Common
+    public static class Common
     {
+        #region Queries
+        public static String TimmarOdebiteradeQuery =
+"WITH resultTabel(rapportradDatum, rapportradStart, rapportradSlut, rapportradLunchStart, rapportradLunchSlut, ejdebiterbar) " +
+"AS(SELECT rapportradDatum, rapportradStart, rapportradSlut, rapportradLunchStart, rapportradLunchSlut, ejdebiterbar " +
+"FROM snille_rapportrader " +
+"INNER JOIN snille_personaltabell " +
+"ON snille_rapportrader.personalID = snille_personaltabell.personalID " +
+"INNER JOIN snille_uppdragstabell " +
+"ON snille_uppdragstabell.uppdragsID = snille_rapportrader.uppdragsID " +
+"WHERE snille_personaltabell.personalTyp = 2 AND snille_uppdragstabell.ejdebiterbar = 1) " +
+"Select SUM(ejdebiterbar)as summa from resultTabel ";
+        public static String UtläggQuery =
+"WITH resultTabel(personalTyp, ersattningsDatum, ersattningsTyp, ersattningsKostnadInkl, " +
+"ersattningsKostnadExkl, sum)" +
+"AS(SELECT personalTyp, ersattningsDatum, ersattningsTyp, ersattningsKostnadInkl, " +
+"ersattningsKostnadExkl, ersattningsKostnadInkl+ersattningsKostnadExkl as Sum " +
+"FROM snille_personaltabell " +
+"INNER JOIN snille_ersattningstabell " +
+"ON snille_ersattningstabell.personalID = snille_personaltabell.personalID " +
+"WHERE ersattningsTyp = 1) " +
+"Select SUM(sum) as summa from resultTabel ";
+        public static String MilersättningQuery =
+"WITH resultTabel(personalTyp, ersattningsDatum, ersattningsTyp, ersattningsKostnadInkl, " +
+"ersattningsKostnadExkl, sum)" +
+"AS(SELECT personalTyp, ersattningsDatum, ersattningsTyp, ersattningsKostnadInkl, " +
+"ersattningsKostnadExkl, ersattningsKostnadInkl+ersattningsKostnadExkl as Sum " +
+"FROM snille_personaltabell " +
+"INNER JOIN snille_ersattningstabell " +
+"ON snille_ersattningstabell.personalID = snille_personaltabell.personalID " +
+"WHERE ersattningsTyp = 3)Select SUM(sum) as summa from resultTabel ";
+        public static String TraktamenteQuery =
+"WITH resultTabel(personalTyp, ersattningsDatum, ersattningsTyp, ersattningsKostnadInkl, " +
+"ersattningsKostnadExkl, sum) " +
+"AS(SELECT personalTyp, ersattningsDatum, ersattningsTyp, ersattningsKostnadInkl, " +
+"ersattningsKostnadExkl, ersattningsKostnadInkl+ersattningsKostnadExkl as Sum " +
+"FROM snille_personaltabell " +
+"INNER JOIN snille_ersattningstabell " +
+"ON snille_ersattningstabell.personalID = snille_personaltabell.personalID " +
+"WHERE ersattningsTyp = 2)Select SUM(sum) as summa from resultTabel ";
+        #endregion
         #region Enums
         /// <summary>
         /// Workers types
@@ -15,7 +53,7 @@ namespace Statistics.Classes
         /// <summary>
         ///  ersattning types
         /// </summary>
-        public enum ersattningsTypes {type1 =1,type2=2,type3=3 };
+        public enum ersattningsTypes { type1 = 1, type2 = 2, type3 = 3 };
         #endregion
         #region ColumnsNames
         /// <summary>
@@ -44,14 +82,16 @@ namespace Statistics.Classes
             "Löne och UK kostnader","Arbetade timmar",
             "Timmar odebiterade","Timmar totalt"
         };
-        #endregion
+        /// <summary>
+        /// statistik tabell columns
+        /// </summary>
         public static Dictionary<string, string> statistikTabel = new Dictionary<string, string>
         {
             {"Arbetare","" },
             { "Intäkter och kostnader",""},
             { "Debitering bemanning","c"},
             { "Löne och UK kostnader","c"},
-            { "Timmar",""},            
+            { "Timmar",""},
             { "Arbetade timmar","c"},
             { "Timmar odebiterade","c"},
             { "Timmar totalt","c"},
@@ -61,5 +101,6 @@ namespace Statistics.Classes
             { "Traktamente","c"},
             { "Summa","c"}
         };
+        #endregion
     }
 }

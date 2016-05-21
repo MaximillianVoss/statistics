@@ -4,9 +4,9 @@ using System.Data.SqlClient;
 
 namespace Statistics.Classes
 {
-    public class SQLController
+    public static class SQLController
     {
-        public DataRowCollection GetTable(string query)
+        public static DataRowCollection GetTable(string query)
         {
             DataTable resultTable = new DataTable();
             char c = Convert.ToChar(92);
@@ -20,7 +20,7 @@ namespace Statistics.Classes
             da.Dispose();
             return resultTable.Rows;
         }
-        public DataTable GetDataTable(string query)
+        public static DataTable GetDataTable(string query)
         {
             DataTable resultTable = new DataTable();
             char c = Convert.ToChar(92);
@@ -34,6 +34,7 @@ namespace Statistics.Classes
             da.Dispose();
             return resultTable;
         }
+
 
     }
 }

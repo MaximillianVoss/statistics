@@ -26,16 +26,12 @@
     $(function () {
         $('#datetimepickerStart').datetimepicker({
             format: 'yyyy-MM-dd',
-            //format: 'yyyy-mm-dd',
-            //pickDate: false
             pickTime: false
         });
     });
     $(function () {
         $('#datetimepickerSlut').datetimepicker({
             format: 'yyyy-MM-dd',
-            //format: 'yyyy-mm-dd',
-            //pickDate: false
             pickTime: false
         });
     });
@@ -45,7 +41,6 @@
         <div class="container well">
             <label class="label">rapportadStart</label>
             <div id="datetimepickerStart" class="input-append col-md-6">
-                <%--data-format="hh:mm:ss"  type="text"--%>
                 <asp:TextBox ID="rapportadStartTextBox" data-format="yyyy-mm-dd"  type="text" runat="server" />
                 <span class="add-on">
                     <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
