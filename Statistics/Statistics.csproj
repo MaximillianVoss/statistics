@@ -200,6 +200,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Classes\Calculate.cs" />
+    <Compile Include="Classes\Common.cs" />
     <Compile Include="Classes\ControlCreator.cs" />
     <Compile Include="Classes\ConvertDate.cs" />
     <Compile Include="Classes\Query.cs" />
@@ -258,6 +259,12 @@
     <Content Include="Content\Site.css" />
     <Content Include="Pages\SelectDate.aspx" />
     <Content Include="Pages\Table.aspx" />
+    <Content Include="Queries\Query2.sql" />
+    <Content Include="Queries\Query4.sql" />
+    <Content Include="Queries\Query5.sql" />
+    <Content Include="Queries\Query6.sql" />
+    <Content Include="Queries\Query7.sql" />
+    <Content Include="Queries\Query8.sql" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />

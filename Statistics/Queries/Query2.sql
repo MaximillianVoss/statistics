@@ -1,0 +1,4 @@
+SELECT personalTyp,rapportradDatum ,rapportradStart,rapportradSlut,rapportradLunchStart,rapportradLunchSlut, rapportradLonegrund,
+FROM snille_personaltabell
+INNER JOIN snille_rapportrader
+ON  snille_personaltabell.personalID = snille_rapportrader.personalID

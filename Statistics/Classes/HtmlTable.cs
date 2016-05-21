@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Web.UI;
 
@@ -38,6 +39,34 @@ namespace Statistics.Classes
             {
                 table.Controls.Add(creator.CreateHtmlControl("div","No results"));
             }           
+            return table;
+        }
+        public static Control CreateStatisticTable(Dictionary<string,string> values)
+        {
+            HtmlControlCreator creator = new HtmlControlCreator();
+            var table = creator.CreateHtmlControl(string.Empty, "table", "table");
+            var header = creator.CreateHtmlControl(string.Empty, "tr", string.Empty);
+            header.Controls.Add(creator.CreateHtmlControl("th", "Statistik"));
+            table.Controls.Add(header);
+            foreach(var item in values)
+            {
+                if(String.IsNullOrEmpty(item.Value))
+                {
+                    var row = creator.CreateHtmlControl(string.Empty, "tr", "warning");
+                    var nameCell = creator.CreateHtmlControl("td", item.Key);
+                    row.Controls.Add(nameCell);
+                    table.Controls.Add(row);
+                }
+                else
+                {
+                    var row = creator.CreateHtmlControl(string.Empty, "tr", "info");
+                    var nameCell = creator.CreateHtmlControl( "td", item.Key);
+                    var valueCell = creator.CreateHtmlControl( "td", item.Value);
+                    row.Controls.Add(nameCell);
+                    row.Controls.Add(valueCell);
+                    table.Controls.Add(row);
+                }               
+            }
             return table;
         }
     }

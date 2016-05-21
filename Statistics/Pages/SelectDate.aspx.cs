@@ -13,10 +13,11 @@ namespace Statistics.Pages
         private void AddTable(string rapportadStartDatum,string rapportadSlutDatum)
         {            
             SQLController sqlController = new SQLController();
-            //var table = sqlController.GetTable(Query.GetQuery(rapportadStartDatum, rapportadStartDatum, (int)Query.personalTypes.worker));
-            var table = sqlController.GetDataTable(Query.GetQuery(rapportadStartDatum, rapportadSlutDatum, (int)Query.personalTypes.type2));
-            Calculate.AddCalculateColumns(table);
-            this.Page.Controls.Add(HtmlTable.CreateTable(table.Rows));
+            var table = sqlController.GetDataTable(Query.GetPersonalQuery(rapportadStartDatum, rapportadSlutDatum, (int)Common.personalTypes.type2,Common.columnNamesPersonal));
+            Calculate.AddCalculateColumns(table,Common.columnsToAdd);
+            //var table = sqlController.GetDataTable(Query.GetErastingsQuery(rapportadStartDatum, rapportadSlutDatum, (int)Common.ersattningsTypes.type1, Common.columnNamesErsattnings));
+            //this.Page.Controls.Add(HtmlTable.CreateTable(table.Rows));
+            this.Page.Controls.Add(HtmlTable.CreateStatisticTable(Common.statistikTabel));
         }
 
         protected void showTableBtn_Click(object sender, EventArgs e)

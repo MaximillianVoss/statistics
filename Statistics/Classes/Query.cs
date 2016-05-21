@@ -7,63 +7,51 @@ namespace Statistics.Classes
 {
     public static class Query
     {
-        public enum personalTypes { worker = 1, type2 = 2, type3 = 3, type4 = 4 };
         private static String AddQoutes(string value)
         {
             return string.Format("'{0}'", value);
         }
         public static String AddDates(string rapportradDatumFrom, string rapportradDatumTo)
         {
-            if (String.IsNullOrEmpty(rapportradDatumFrom) && String.IsNullOrEmpty(rapportradDatumTo))            
-                return String.Empty;            
-            else if (String.IsNullOrEmpty(rapportradDatumTo))            
-                return String.Format("AND rapportradDatum>={0}", AddQoutes(rapportradDatumFrom));
-            
-            else if (String.IsNullOrEmpty(rapportradDatumFrom))            
-                return String.Format("AND rapportradDatum<={0}", AddQoutes(rapportradDatumTo));           
-            else            
-                return String.Format("AND rapportradDatum>={0} AND rapportradDatum<={1}", 
+            if (String.IsNullOrEmpty(rapportradDatumFrom) && String.IsNullOrEmpty(rapportradDatumTo))
+                return String.Empty;
+            else if (String.IsNullOrEmpty(rapportradDatumTo))
+                return String.Format(" AND rapportradDatum>={0}", AddQoutes(rapportradDatumFrom));
+
+            else if (String.IsNullOrEmpty(rapportradDatumFrom))
+                return String.Format(" AND rapportradDatum<={0}", AddQoutes(rapportradDatumTo));
+            else
+                return String.Format("AND rapportradDatum>={0} AND rapportradDatum<={1}",
                     AddQoutes(rapportradDatumFrom), AddQoutes(rapportradDatumTo));
-            
+
         }
-        public static string GetQuery(string rapportradDatum, string rapportadStart, string rapportadSlut, string personalTyp)
-        {
-            string query = String.Format("Select personalFornamn , rapportradStart,rapportradSlut,rapportradLunchStart,rapportradLunchSlut,rapportradDatum,personalTyp From snille_personaltabell" +
-                " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID AND" +
-                " snille_rapportrader.rapportradStart = {0} AND snille_rapportrader.rapportradSlut = {1} AND personalTyp={2} AND rapportradDatum>={3}",
-                AddQoutes(rapportadStart), AddQoutes(rapportadSlut), AddQoutes(personalTyp), AddQoutes(rapportradDatum));
-            return query;
-        }
-        public static string GetQuery(string rapportradDatumFrom, string rapportradDatumTo, int personalTyp)
+        public static String AddDates(string rapportradDatumFrom, string rapportradDatumTo, string dateColumnName)
         {
             if (String.IsNullOrEmpty(rapportradDatumFrom) && String.IsNullOrEmpty(rapportradDatumTo))
-            {
-                return String.Format("Select personalFornamn , rapportradStart,rapportradSlut,rapportradLunchStart,rapportradLunchSlut,rapportradDatum,personalTyp From snille_personaltabell" +
-                 " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID");
-            }
+                return String.Empty;
             else if (String.IsNullOrEmpty(rapportradDatumTo))
-            {
-                return String.Format("Select personalFornamn , rapportradStart,rapportradSlut,rapportradLunchStart,rapportradLunchSlut,rapportradDatum,personalTyp From snille_personaltabell" +
-                 " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID AND" +
-                 " personalTyp={0} AND rapportradDatum>={1}", AddQoutes(personalTyp.ToString()), AddQoutes(rapportradDatumFrom));
-            }
-            else if (String.IsNullOrEmpty(rapportradDatumFrom))
-            {
-                return String.Format("Select personalFornamn , rapportradStart,rapportradSlut,rapportradLunchStart,rapportradLunchSlut,rapportradDatum,personalTyp From snille_personaltabell" +
-                " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID AND" +
-                " personalTyp={0} AND rapportradDatum<={1}", AddQoutes(personalTyp.ToString()), AddQoutes(rapportradDatumTo));
-            }
-            else
-            {
-                return String.Format("Select personalFornamn , rapportradStart,rapportradSlut,rapportradLunchStart,rapportradLunchSlut,rapportradDatum,personalTyp From snille_personaltabell" +
-                " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID AND" +
-                " personalTyp={2} AND rapportradDatum>={0} AND rapportradDatum<={1}",
-                AddQoutes(rapportradDatumFrom), AddQoutes(rapportradDatumTo), AddQoutes(personalTyp.ToString()));
-            }
-        }
-        public static void GetQuery(string tableName, List<string> columnNames)
-        {
+                return String.Format(" AND {0}>={1}", dateColumnName, AddQoutes(rapportradDatumFrom));
 
+            else if (String.IsNullOrEmpty(rapportradDatumFrom))
+                return String.Format(" AND {0}<={1}", dateColumnName, AddQoutes(rapportradDatumTo));
+            else
+                return String.Format("AND {0}>={1} AND {0}<={2}",
+                    dateColumnName, AddQoutes(rapportradDatumFrom), AddQoutes(rapportradDatumTo));
+
+        }
+        public static string GetPersonalQuery(string rapportradDatumFrom, string rapportradDatumTo, int personalTyp, List<string> columnNames)
+        {
+            return String.Format("Select " + String.Join(",", columnNames.ToArray()) + " From snille_personaltabell" +
+                 " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID" +
+                 " AND personalTyp={0} {1}", AddQoutes(personalTyp.ToString()), AddDates(rapportradDatumFrom, rapportradDatumTo));
+        }
+        public static string GetErastingsQuery(string rapportradDatumFrom, string rapportradDatumTo, int ersattningsTyp, List<string> columnNames)
+        {
+            return String.Format(
+            "SELECT " + String.Join(",", columnNames.ToArray()) + " FROM snille_personaltabell" +
+            " INNER JOIN  snille_ersattningstabell ON snille_personaltabell.personalID = snille_ersattningstabell.personalID"+
+            " WHERE ersattningsTyp = {0} {1}", AddQoutes(ersattningsTyp.ToString()), AddDates(rapportradDatumFrom, rapportradDatumTo, "ersattningsDatum")
+                );
         }
     }
 }
