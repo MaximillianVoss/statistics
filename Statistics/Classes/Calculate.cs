@@ -6,7 +6,7 @@ namespace Statistics.Classes
 {
     public static class Calculate
     {
-        public  static double CalculateWorkinghours(DateTime startTime, DateTime endTime, DateTime lunchStartTime, DateTime lunchEndTime)
+        public static double CalculateWorkinghours(DateTime startTime, DateTime endTime, DateTime lunchStartTime, DateTime lunchEndTime)
         {
             TimeSpan ts;
             TimeSpan tsLunch;
@@ -56,14 +56,32 @@ namespace Statistics.Classes
             else
                 return value;
         }
-        public static  void AddCalculateColumns(DataTable table,List<string> columnsNamesToAdd)
+        public static void GetErastingValues(string startDatum, string slutDatum)
+        {
+
+            var UtläggQuery = String.Format( Common.UtläggQuery,  Query.AddDatesWithWhere(startDatum, slutDatum, "ersattningsDatum"));
+            var TraktamenteQuery = String.Format( Common.TraktamenteQuery,  Query.AddDatesWithWhere(startDatum, slutDatum, "ersattningsDatum")); ;
+            var MilersättningQuery = String.Format( Common.MilersättningQuery,  Query.AddDatesWithWhere(startDatum, slutDatum, "ersattningsDatum")); ;
+
+            var UtläggTabel = Calculate.GetValueFromResultTable(SQLController.GetDataTable(UtläggQuery), "summa");
+            Common.statistikTabel["Utlägg"] = GetCorrectValue(UtläggTabel);
+            var Milersättning = Calculate.GetValueFromResultTable(SQLController.GetDataTable(MilersättningQuery), "summa");
+            Common.statistikTabel["Milersättning"] = GetCorrectValue(Milersättning);
+            var Traktamente = Calculate.GetValueFromResultTable(SQLController.GetDataTable(TraktamenteQuery), "summa");
+            Common.statistikTabel["Traktamente"] = GetCorrectValue(Traktamente);
+
+            Common.statistikTabel["Summa"] =
+                 (Convert.ToDouble(Common.statistikTabel["Utlägg"].ToString())
+                 + Convert.ToDouble(Common.statistikTabel["Milersättning"].ToString())
+                 + Convert.ToDouble(Common.statistikTabel["Traktamente"].ToString())).ToString();
+        }
+        public static void AddCalculateColumns(DataTable table, List<string> columnsNamesToAdd)
         {
             foreach (var item in columnsNamesToAdd)
                 table.Columns.Add(item);
-            double debitering=0, löne=0, timmar=0;
+            double debitering = 0, löne = 0, timmar = 0;
             foreach (DataRow item in table.Rows)
             {
-                
                 String raportStart = ConvertDate.FormatConvert(item["rapportradDatum"].ToString(), "yyyy-MM-dd") + ' ' + item["rapportradStart"].ToString();
                 String raportEnd = ConvertDate.FormatConvert(item["rapportradDatum"].ToString(), "yyyy-MM-dd") + ' ' + item["rapportradSlut"].ToString();
                 String lunchStart = ConvertDate.FormatConvert(item["rapportradDatum"].ToString(), "yyyy-MM-dd") + ' ' + item["rapportradLunchStart"].ToString();
@@ -76,8 +94,8 @@ namespace Statistics.Classes
                 item["Arbetade timmar"] = new TimeSpan(
                     (Convert.ToDateTime(raportEnd) - Convert.ToDateTime(raportStart)).Ticks -
                     (Convert.ToDateTime(lunchEnd) - Convert.ToDateTime(lunchStart)).Ticks).TotalHours;
-                //item["Timmar odebiterade"] = ;
-                //item["Arbetade timmar"] = ;
+
+
                 debitering += Convert.ToDouble(item["Debitering bemanning"].ToString());
                 löne += Convert.ToDouble(item["Löne och UK kostnader"].ToString());
                 timmar += Convert.ToDouble(item["Arbetade timmar"].ToString());
@@ -91,19 +109,6 @@ namespace Statistics.Classes
             Common.statistikTabel["Timmar totalt"] =
                 (Convert.ToDouble(GetCorrectValue(TimmarOdebiterade)) +
                 Convert.ToDouble(GetCorrectValue(Common.statistikTabel["Arbetade timmar"]))).ToString();
-            var UtläggTabel = Calculate.GetValueFromResultTable(SQLController.GetDataTable(Common.UtläggQuery), "summa");
-            Common.statistikTabel["Utlägg"] = GetCorrectValue(UtläggTabel);
-            var Milersättning = Calculate.GetValueFromResultTable(SQLController.GetDataTable(Common.MilersättningQuery), "summa");
-            Common.statistikTabel["Milersättning"] = GetCorrectValue(Milersättning);
-            var Traktamente = Calculate.GetValueFromResultTable(SQLController.GetDataTable(Common.TraktamenteQuery), "summa");
-            Common.statistikTabel["Traktamente"] = GetCorrectValue(Traktamente);
-           
-            Common.statistikTabel["Summa"] =
-                (Convert.ToDouble(Common.statistikTabel["Utlägg"].ToString())
-                + Convert.ToDouble(Common.statistikTabel["Milersättning"].ToString())
-                + Convert.ToDouble(Common.statistikTabel["Traktamente"].ToString())).ToString();
-
-
         }
         public static String GetValueFromResultTable(DataTable table, string ColumnName)
         {

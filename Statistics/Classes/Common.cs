@@ -25,7 +25,7 @@ namespace Statistics.Classes
 "INNER JOIN snille_ersattningstabell " +
 "ON snille_ersattningstabell.personalID = snille_personaltabell.personalID " +
 "WHERE ersattningsTyp = 1) " +
-"Select SUM(sum) as summa from resultTabel ";
+"Select SUM(sum) as summa from resultTabel {0}";
         public static String MilersättningQuery =
 "WITH resultTabel(personalTyp, ersattningsDatum, ersattningsTyp, ersattningsKostnadInkl, " +
 "ersattningsKostnadExkl, sum)" +
@@ -34,7 +34,7 @@ namespace Statistics.Classes
 "FROM snille_personaltabell " +
 "INNER JOIN snille_ersattningstabell " +
 "ON snille_ersattningstabell.personalID = snille_personaltabell.personalID " +
-"WHERE ersattningsTyp = 3)Select SUM(sum) as summa from resultTabel ";
+"WHERE ersattningsTyp = 3)Select SUM(sum) as summa from resultTabel {0}";
         public static String TraktamenteQuery =
 "WITH resultTabel(personalTyp, ersattningsDatum, ersattningsTyp, ersattningsKostnadInkl, " +
 "ersattningsKostnadExkl, sum) " +
@@ -43,13 +43,13 @@ namespace Statistics.Classes
 "FROM snille_personaltabell " +
 "INNER JOIN snille_ersattningstabell " +
 "ON snille_ersattningstabell.personalID = snille_personaltabell.personalID " +
-"WHERE ersattningsTyp = 2)Select SUM(sum) as summa from resultTabel ";
+"WHERE ersattningsTyp = 2)Select SUM(sum) as summa from resultTabel {0}";
         #endregion
         #region Enums
         /// <summary>
         /// Workers types
         /// </summary>
-        public enum personalTypes { worker = 1, type2 = 2, type3 = 3, type4 = 4 };
+        public enum personalTypes { type1 = 1, type2 = 2, type3 = 3, type4 = 4 };
         /// <summary>
         ///  ersattning types
         /// </summary>

@@ -35,8 +35,26 @@ namespace Statistics.Classes
             else if (String.IsNullOrEmpty(rapportradDatumFrom))
                 return String.Format(" AND {0}<={1}", dateColumnName, AddQoutes(rapportradDatumTo));
             else
-                return String.Format("AND {0}>={1} AND {0}<={2}",
+                return String.Format(" AND {0}>={1} AND {0}<={2}",
                     dateColumnName, AddQoutes(rapportradDatumFrom), AddQoutes(rapportradDatumTo));
+
+        }
+        public static String AddDatesWithWhere(string rapportradDatumFrom, string rapportradDatumTo, string dateColumnName)
+        {
+            String query = String.Empty;
+            if (String.IsNullOrEmpty(rapportradDatumFrom) && String.IsNullOrEmpty(rapportradDatumTo))
+                query= String.Empty;
+            else if (String.IsNullOrEmpty(rapportradDatumTo))
+                query= String.Format(" {0}>={1}", dateColumnName, AddQoutes(rapportradDatumFrom));
+
+            else if (String.IsNullOrEmpty(rapportradDatumFrom))
+                query= String.Format(" {0}<={1}", dateColumnName, AddQoutes(rapportradDatumTo));
+            else
+                query= String.Format(" {0}>={1} AND {0}<={2}",
+                    dateColumnName, AddQoutes(rapportradDatumFrom), AddQoutes(rapportradDatumTo));
+
+            if (!String.IsNullOrEmpty(query)) return " WHERE " + query;
+            else return query;
 
         }
         public static string GetPersonalQuery(string rapportradDatumFrom, string rapportradDatumTo, int personalTyp, List<string> columnNames)

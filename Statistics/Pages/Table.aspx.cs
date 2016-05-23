@@ -11,16 +11,22 @@ namespace Statistics.Pages
     public partial class Table : System.Web.UI.Page
     {
         #region Methods
-        private void AddTable(string rapportadStartDatum, string rapportadSlutDatum)
+        private void AddTable(string startDatum, string slutDatum)
         {
-            var table = SQLController.GetDataTable(Query.GetPersonalQuery(rapportadStartDatum, rapportadSlutDatum, (int)Common.personalTypes.type2, Common.columnNamesPersonal));
-            Calculate.AddCalculateColumns(table, Common.columnsToAdd);
+            var tabel = SQLController.GetDataTable(Query.GetPersonalQuery(startDatum, slutDatum, (int)Common.personalTypes.type2, Common.columnNamesPersonal));
+            Calculate.AddCalculateColumns(tabel, Common.columnsToAdd);
+            Calculate.GetErastingValues(startDatum, slutDatum);
             this.Page.Controls.Add(HtmlTable.CreateStatisticTable(Common.statistikTabel));
         }
         #endregion
         protected void Page_Load(object sender, EventArgs e)
         {
             AddTable(Request.QueryString["from"].ToString(), Request.QueryString["to"].ToString());
+        }
+
+        protected void back_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("SelectDate.aspx");
         }
     }
 }

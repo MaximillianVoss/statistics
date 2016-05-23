@@ -34,7 +34,5 @@ namespace Statistics.Classes
             da.Dispose();
             return resultTable;
         }
-
-
     }
 }
