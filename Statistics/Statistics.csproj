@@ -201,17 +201,25 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Classes\Calculate.cs" />
     <Compile Include="Classes\Common.cs" />
+    <Compile Include="Classes\Constants.cs" />
     <Compile Include="Classes\ControlCreator.cs" />
     <Compile Include="Classes\ConvertDate.cs" />
     <Compile Include="Classes\Query.cs" />
     <Compile Include="Classes\SQLController.cs" />
     <Compile Include="Classes\HtmlTable.cs" />
+    <Compile Include="Classes\Tabels\StatistikTabel.cs" />
+    <Compile Include="Classes\Tabels\Arbetare.cs" />
+    <Compile Include="Classes\Tabels\BaseTabel.cs" />
+    <Compile Include="Classes\Tabels\Internt.cs" />
+    <Compile Include="Classes\Tabels\Tjansteman.cs" />
+    <Compile Include="Classes\Tabels\Underkonsult.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IStatistikTabel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DB\snille_anvtabell.cs" />
     <Compile Include="Models\DB\snille_banktabell.cs" />
@@ -259,6 +267,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="Pages\SelectDate.aspx" />
     <Content Include="Pages\Table.aspx" />
+    <Content Include="Queries\143025-tidrapport - kopia.sql" />
+    <Content Include="Queries\DB create\143025-tidrapport - kopia.sql" />
+    <Content Include="Queries\DB create\SweedishQuery.sql" />
     <Content Include="Queries\Query2.sql" />
     <Content Include="Queries\Query4.sql" />
     <Content Include="Queries\Query5.sql" />

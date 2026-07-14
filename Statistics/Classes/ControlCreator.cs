@@ -8,10 +8,19 @@ namespace Statistics.Classes
     public class HtmlControlCreator
     {
         #region Create html controls
-
-
         #region Modify
-        private void SetAttributes(ref HtmlGenericControl element, Dictionary<string, string> attributes)
+        public HtmlGenericControl SetAttributes(HtmlGenericControl element, Dictionary<string, string> attributes)
+        {
+            if (attributes != null)
+            {
+                foreach (var item in attributes)
+                {
+                    element.Attributes.Add(item.Key, item.Value);
+                }
+            }
+            return element;
+        }
+        public void SetAttributes(ref HtmlGenericControl element, Dictionary<string, string> attributes)
         {
             if (attributes != null)
             {
@@ -22,13 +31,12 @@ namespace Statistics.Classes
             }
             //return element;
         }
-        private void SetInnerText(ref HtmlGenericControl element, String innerText)
+        public void SetInnerText(ref HtmlGenericControl element, String innerText)
         {
             element.InnerText = innerText;
             //return element;
         }
         #endregion
-
         #region Create
         public HtmlGenericControl CreateHtmlControl(
 string ID, string tag, string attributeName,
@@ -84,7 +92,7 @@ string attributeValue, string tagClass)
             SetInnerText(ref element, innerText);
             return element;
         }
-        public HtmlGenericControl CreateHtmlControl(string ID, string tag, Dictionary<string, string> attributes)
+        public HtmlGenericControl CreateHtmlControl(string ID, string tag, Dictionary<String, String> attributes)
         {
             HtmlGenericControl element = new HtmlGenericControl(tag);
             if (!String.IsNullOrEmpty(ID))
@@ -98,7 +106,7 @@ string attributeValue, string tagClass)
 
             return element;
         }
-        public HtmlGenericControl CreateHtmlControl(string ID, string tag, Dictionary<string, string> attributes, string innerText)
+        public HtmlGenericControl CreateHtmlControl(string ID, string tag, Dictionary<String, String> attributes, String innerText)
         {
             HtmlGenericControl element = new HtmlGenericControl(tag);
             if (!String.IsNullOrEmpty(ID))

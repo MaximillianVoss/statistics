@@ -1,4 +1,6 @@
 ﻿using Statistics.Classes;
+using Statistics.Classes.Tabels;
+using Statistics.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,22 @@ namespace Statistics.Pages
         #region Methods
         private void AddTable(string startDatum, string slutDatum)
         {
-            var tabel = SQLController.GetDataTable(Query.GetPersonalQuery(startDatum, slutDatum, (int)Common.personalTypes.type2, Common.columnNamesPersonal));
-            Calculate.AddCalculateColumns(tabel, Common.columnsToAdd);
-            Calculate.GetErastingValues(startDatum, slutDatum);
-            this.Page.Controls.Add(HtmlTable.CreateStatisticTable(Common.statistikTabel));
+            Tjansteman tjanstemanTabel = new Tjansteman("Tjansteman", (int)Common.Enums.personalTypes.type2,
+               Common.ColumnNames.columnNamesPersonal, Common.ColumnNames.statistikTabelColumnNames,
+               startDatum, slutDatum, Common.ColumnNames.columnsToAdd,true);
+            Arbetare arbetareTabel = new Arbetare("Arbetare", (int)Common.Enums.personalTypes.type1, 
+                Common.ColumnNames.columnNamesPersonal, Common.ColumnNames.statistikTabelColumnNames, 
+                startDatum, slutDatum, Common.ColumnNames.columnsToAdd,false);         
+            Internt interntTabel = new Internt("Internt", (int)Common.Enums.personalTypes.type3,
+                Common.ColumnNames.columnNamesPersonal, Common.ColumnNames.statistikTabelColumnNames,
+                startDatum, slutDatum, Common.ColumnNames.columnsToAdd,false);
+            Underkonsult underconsultTabel = new Underkonsult("Underkonsult", (int)Common.Enums.personalTypes.type4,
+                Common.ColumnNames.columnNamesPersonal, Common.ColumnNames.statistikTabelColumnNames,
+                startDatum, slutDatum, Common.ColumnNames.columnsToAdd,false);
+
+            this.Page.Controls.Add(HtmlTable.CreateStatisticTable
+                (tjanstemanTabel.statistikTabel, arbetareTabel.statistikTabel,
+                interntTabel.statistikTabel,underconsultTabel.statistikTabel));
         }
         #endregion
         protected void Page_Load(object sender, EventArgs e)

@@ -1,3 +1,4 @@
+
 WITH resultTabel (rapportradDatum, rapportradStart, rapportradSlut, rapportradLunchStart, rapportradLunchSlut,ejdebiterbar )
 AS
 (

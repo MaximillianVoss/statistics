@@ -19,6 +19,11 @@ namespace Statistics.Tests
             //01.03.2016 0:00:00 06:00
             Assert.AreEqual("2016-03-01 06:00:00",ConvertDate.FormatConvert("01.03.2016 06:00", "yyyy-MM-dd hh:mm:ss"));
         }
+        [TestMethod]
+        public void ConvertValue()
+        {
+            Assert.AreEqual("2 000 000", (200000000).ToString("### ### ###.##"));
+        }
         
     }
 }

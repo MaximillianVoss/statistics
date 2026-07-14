@@ -10,33 +10,33 @@ namespace Statistics.Tests
         [TestMethod]
         public void QueryTestFull()
         {
-            Assert.AreEqual(("Select " + String.Join(", ", Common.columnNamesPersonal.ToArray()) + " From snille_personaltabell" +
+            Assert.AreEqual(("Select " + String.Join(", ", Common.ColumnNames.columnNamesPersonal.ToArray()) + " From snille_personaltabell" +
             " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID AND" +
             " personalTyp='1' AND rapportradDatum>='2010-13-01' AND rapportradDatum<='2010-13-02'").Replace(" ", String.Empty),
-            Query.GetPersonalQuery("2010-13-01", "2010-13-02", 1, Common.columnNamesPersonal).Replace(" ", String.Empty));
+            Query.GetPersonalQuery("2010-13-01", "2010-13-02", 1, Common.ColumnNames.columnNamesPersonal).Replace(" ", String.Empty));
         }
         [TestMethod]
         public void QueryTestOnlyFrom()
         {
-            Assert.AreEqual(("Select " + String.Join(", ", Common.columnNamesPersonal.ToArray()) + " From snille_personaltabell" +
+            Assert.AreEqual(("Select " + String.Join(", ", Common.ColumnNames.columnNamesPersonal.ToArray()) + " From snille_personaltabell" +
             " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID AND" +
             " personalTyp='1'  AND rapportradDatum>='2010-13-01'").Replace(" ", String.Empty),
-            Query.GetPersonalQuery("2010-13-01", String.Empty, 1, Common.columnNamesPersonal).Replace(" ", String.Empty));
+            Query.GetPersonalQuery("2010-13-01", String.Empty, 1, Common.ColumnNames.columnNamesPersonal).Replace(" ", String.Empty));
         }
         [TestMethod]
         public void QueryTestOnlyTo()
         {
-            Assert.AreEqual(("Select " + String.Join(", ", Common.columnNamesPersonal.ToArray()) + " From snille_personaltabell" +
+            Assert.AreEqual(("Select " + String.Join(", ", Common.ColumnNames.columnNamesPersonal.ToArray()) + " From snille_personaltabell" +
             " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID AND" +
             " personalTyp='1'  AND rapportradDatum<='2010-13-01'").Replace(" ", String.Empty),
-            Query.GetPersonalQuery(String.Empty, "2010-13-01", 1, Common.columnNamesPersonal).Replace(" ", String.Empty));
+            Query.GetPersonalQuery(String.Empty, "2010-13-01", 1, Common.ColumnNames.columnNamesPersonal).Replace(" ", String.Empty));
         }
         [TestMethod]
         public void QueryTestEpmty()
         {
-            Assert.AreEqual(("Select " + String.Join(", ", Common.columnNamesPersonal.ToArray()) + " From snille_personaltabell" +
+            Assert.AreEqual(("Select " + String.Join(", ", Common.ColumnNames.columnNamesPersonal.ToArray()) + " From snille_personaltabell" +
             " INNER JOIN  snille_rapportrader ON snille_personaltabell.personalID = snille_rapportrader.personalID AND personalTyp='1' ").Replace(" ", String.Empty),
-            Query.GetPersonalQuery(String.Empty, String.Empty, 1, Common.columnNamesPersonal).Replace(" ", String.Empty));
+            Query.GetPersonalQuery(String.Empty, String.Empty, 1, Common.ColumnNames.columnNamesPersonal).Replace(" ", String.Empty));
 
         }
         [TestMethod]
